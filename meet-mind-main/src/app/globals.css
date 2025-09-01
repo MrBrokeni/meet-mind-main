@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%; /* Light Cool Gray */
+    --foreground: 210 10% 23%; /* Dark Cool Gray */
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 210 10% 23%; /* Dark Cool Gray */
+    --popover: 0 0% 100%; /* White */
+    --popover-foreground: 210 10% 23%; /* Dark Cool Gray */
+    --primary: 180 100% 29%; /* Slightly darker Teal for better contrast */
+    --primary-foreground: 0 0% 100%; /* White */
+    --secondary: 210 40% 90%; /* Slightly lighter Soft Blue */
+    --secondary-foreground: 180 100% 18%; /* Slightly darker Teal text on secondary */
+    --muted: 210 40% 96%; /* Lighter Cool Gray */
+    --muted-foreground: 210 10% 45%; /* Medium Cool Gray */
+    --accent: 180 100% 38%; /* Brighter Teal */
+    --accent-foreground: 0 0% 100%; /* White */
+    --destructive: 0 72% 51%; /* Slightly adjusted destructive red */
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 30% 88%; /* Adjusted border color */
+    --input: 210 30% 92%; /* Adjusted input border */
+    --ring: 180 100% 38%; /* Brighter Teal Ring */
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+
+    /* Sidebar Light Theme */
+    --sidebar-background: 210 40% 96.5%; /* Slightly off background */
+    --sidebar-foreground: 210 10% 35%; /* Darker gray */
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: 210 40% 90%; /* Muted accent */
+    --sidebar-accent-foreground: 210 10% 15%; /* Very dark text */
+    --sidebar-border: 210 30% 85%; /* Slightly darker border */
+    --sidebar-ring: var(--ring);
+  }
+
+  .dark {
+    --background: 210 10% 12%; /* Darker Blue-Gray */
+    --foreground: 210 40% 96%; /* Lighter Cool Gray */
+    --card: 210 10% 17%; /* Slightly Lighter Dark Blue-Gray */
+    --card-foreground: 210 40% 96%; /* Lighter Cool Gray */
+    --popover: 210 10% 17%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 180 100% 40%; /* Lighter Teal for dark mode */
+    --primary-foreground: 210 10% 15%; /* Dark for contrast */
+    --secondary: 210 15% 28%; /* Darker Muted Blue */
+    --secondary-foreground: 210 40% 96%; /* Lighter Cool Gray */
+    --muted: 210 10% 22%; /* Darker Blue-Gray */
+    --muted-foreground: 210 40% 75%; /* Lighter Gray */
+    --accent: 180 100% 35%; /* Teal */
+    --accent-foreground: 0 0% 98%; /* White */
+    --destructive: 0 63% 40%; /* Adjusted dark destructive */
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 10% 30%; /* Darker Border */
+    --input: 210 10% 30%; /* Darker Input Border */
+    --ring: 180 100% 40%; /* Lighter Teal Ring */
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+     /* Sidebar Dark Theme */
+     --sidebar-background: 210 10% 15%; /* Slightly off dark background */
+     --sidebar-foreground: 210 40% 85%; /* Lighter gray */
+     --sidebar-primary: var(--primary);
+     --sidebar-primary-foreground: var(--primary-foreground);
+     --sidebar-accent: 210 15% 25%; /* Muted dark accent */
+     --sidebar-accent-foreground: 210 40% 98%; /* Very light text */
+     --sidebar-border: 210 10% 28%; /* Slightly darker border */
+     --sidebar-ring: var(--ring);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Add smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Improve focus visibility */
+*:focus-visible {
+  @apply ring-2 ring-ring ring-offset-2 ring-offset-background;
+}
+
+/* Custom scrollbar styling (optional, for aesthetics) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted/50;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-border;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+   @apply bg-accent/80;
+}
