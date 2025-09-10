@@ -115,7 +115,7 @@ export interface RecordingCardProps {
   hasMicPermission: boolean | null;
   onRecord: () => void;
   onStop: () => void;
-  onUpload: () => void;
+  onUpload: (file: File) => Promise<void>;
   onReset: () => void;
   isLoading: boolean;
   error: string | null;

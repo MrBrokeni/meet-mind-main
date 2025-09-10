@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { usePermissions } from '@/hooks/usePermissions';
@@ -7,13 +8,13 @@ import { useTranscription } from '@/hooks/useTranscription';
 import { useAnalysis } from '@/hooks/useAnalysis';
 import { useExport } from '@/hooks/useExport';
 import { useRecordings } from '@/hooks/useRecordings';
-import { RecordingCard } from './RecordingCard';
-import { TranscriptCard } from './TranscriptCard';
-import { AnalysisResults } from './AnalysisResults';
-import { LoadingSkeletons } from './LoadingSkeletons';
-import { ErrorAlert } from './ErrorAlert';
-import { ExportModal } from './ExportModal';
-import { MeetingSidebar } from './MeetingSidebar';
+const RecordingCard = dynamic(() => import('./RecordingCard').then(m => m.RecordingCard), { ssr: false });
+const TranscriptCard = dynamic(() => import('./TranscriptCard').then(m => m.TranscriptCard), { ssr: false });
+const AnalysisResults = dynamic(() => import('./AnalysisResults').then(m => m.AnalysisResults));
+const LoadingSkeletons = dynamic(() => import('./LoadingSkeletons').then(m => m.LoadingSkeletons));
+const ErrorAlert = dynamic(() => import('./ErrorAlert').then(m => m.ErrorAlert));
+const ExportModal = dynamic(() => import('./ExportModal').then(m => m.ExportModal), { ssr: false });
+const MeetingSidebar = dynamic(() => import('./MeetingSidebar').then(m => m.MeetingSidebar), { ssr: false });
 import { SidebarProvider, useSidebar } from '@/components/ui/sidebar';
 import { Mic, PanelLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -124,10 +125,11 @@ const AppContent: React.FC = () => {
   ].includes(permissionProcessingState);
 
   const showLoadingSkeletons = permissionProcessingState === 'processing' || permissionProcessingState === 'generating_export';
-  const showErrorAlert = permissionError && 
-    (permissionProcessingState === 'error' || permissionProcessingState === 'permission_denied') && 
-    !isLoading && 
-    permissionProcessingState !== 'checking_permission';
+  const showErrorAlert = Boolean(
+    permissionError &&
+    (permissionProcessingState === 'error' || permissionProcessingState === 'permission_denied') &&
+    !isLoading
+  );
 
   // Utility functions
   const copyToClipboard = useCallback((text: string, label: string) => {
@@ -158,21 +160,16 @@ const AppContent: React.FC = () => {
 
   const resetState = useCallback((keepPermissionState = false) => {
     setPermissionError(null);
-    setKeyPoints(null);
-    setTranslatedTranscript('');
-    setSentimentResult(null);
-    setTopicsResult(null);
+
+    // Clear local UI state
     setTranscript('');
     setAnalysisLanguage('en');
     setMeetingName('');
     setMeetingDate(new Date());
     setLoadedRecordingId(null);
-    setLiveDialogue('');
-    setExportContent('');
-    setExportFormat(null);
     setShowExportModal(false);
-    setRemainingTime(null);
 
+    // Delegate clearing complex state to dedicated hooks
     resetRecording();
     resetTranscription();
     resetAnalysis();
@@ -189,11 +186,20 @@ const AppContent: React.FC = () => {
       });
     }
   }, [
-    setPermissionError, setKeyPoints, setTranslatedTranscript, setSentimentResult, setTopicsResult,
-    setTranscript, setAnalysisLanguage, setMeetingName, setMeetingDate, setLoadedRecordingId,
-    setLiveDialogue, setExportContent, setExportFormat, setShowExportModal, setRemainingTime,
-    resetRecording, resetTranscription, resetAnalysis, resetExport, setPermissionProcessingState,
-    hasMicPermission, toast
+    setPermissionError,
+    setTranscript,
+    setAnalysisLanguage,
+    setMeetingName,
+    setMeetingDate,
+    setLoadedRecordingId,
+    setShowExportModal,
+    resetRecording,
+    resetTranscription,
+    resetAnalysis,
+    resetExport,
+    setPermissionProcessingState,
+    hasMicPermission,
+    toast
   ]);
 
   // Effects
@@ -254,7 +260,7 @@ const AppContent: React.FC = () => {
         )}
       />
 
-      <main className={cn(
+      <main id="main-content" role="main" className={cn(
         "flex-1 flex flex-col items-center p-4 pt-10 md:p-8 overflow-y-auto transition-all duration-300 ease-in-out"
       )}>
         <div className="container mx-auto max-w-4xl w-full">
@@ -352,6 +358,9 @@ const AppContent: React.FC = () => {
             meetingDate={meetingDate}
           />
         </div>
+        <footer className="container mx-auto max-w-4xl w-full mt-6 pb-6 text-xs text-muted-foreground text-center">
+          © {currentYear ?? new Date().getFullYear()} MeetMind. All rights reserved.
+        </footer>
       </main>
     </div>
   );

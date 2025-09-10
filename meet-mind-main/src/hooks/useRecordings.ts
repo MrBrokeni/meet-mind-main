@@ -1,14 +1,14 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { RecordingMetadata } from '@/types';
+import { RecordingMetadata, RecordingLanguage, ProcessingState } from '@/types';
 import { getAllRecordingsMetadata, getRecording, deleteRecording } from '@/lib/db';
 
 export const useRecordings = (
   onTranscriptionComplete: (audioBlob: Blob, sourceName?: string) => void,
   setMeetingName: (name: string) => void,
   setMeetingDate: (date: Date | undefined) => void,
-  setRecordingLanguage: (language: string) => void,
-  setProcessingState: (state: string) => void,
+  setRecordingLanguage: (language: RecordingLanguage) => void,
+  setProcessingState: (state: ProcessingState) => void,
   setError: (error: string | null) => void
 ) => {
   const [recordings, setRecordings] = useState<RecordingMetadata[]>([]);
