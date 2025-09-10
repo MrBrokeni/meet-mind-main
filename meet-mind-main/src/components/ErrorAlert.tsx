@@ -16,22 +16,28 @@ export const ErrorAlert: React.FC<ErrorAlertProps> = ({
   hasMicPermission,
   isLoading,
 }) => {
-  const showErrorAlert = error && 
-    (processingState === 'error' || processingState === 'permission_denied') && 
-    !isLoading && 
-    processingState !== 'checking_permission';
+  const showErrorAlert = Boolean(
+    error && (processingState === 'error' || processingState === 'permission_denied') && !isLoading
+  );
 
   if (!showErrorAlert) {
     return null;
   }
 
   return (
-    <Alert variant="destructive" className="w-full shadow-lg mb-8">
-      <AlertCircle className="h-4 w-4" />
+    <Alert variant="destructive" className="w-full shadow-lg mb-8" role="alert" aria-live="assertive">
+      <AlertCircle className="h-4 w-4" aria-hidden="true" />
       <AlertTitle className="font-semibold">
         {processingState === 'permission_denied' ? "Permission Required" : "Error Occurred"}
       </AlertTitle>
-      <AlertDescription>{error}</AlertDescription>
+      <AlertDescription>
+        {error}
+        {processingState === 'permission_denied' && hasMicPermission === false && (
+          <span className="block mt-2 text-sm">
+            Please enable microphone permissions in your browser and retry.
+          </span>
+        )}
+      </AlertDescription>
     </Alert>
   );
 };
