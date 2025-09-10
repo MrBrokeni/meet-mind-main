@@ -89,7 +89,7 @@ export function MeetingSidebar({
   return (
     <>
       <Sidebar className={className}>
-        <SidebarHeader>
+        <SidebarHeader className="sticky top-0 z-20 bg-sidebar/80 backdrop-blur supports-[backdrop-filter]:bg-sidebar/60">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold flex items-center gap-2">
               <FileAudio className="w-5 h-5" />
@@ -121,7 +121,7 @@ export function MeetingSidebar({
                   <SidebarMenuItem key={rec.id}>
                     <SidebarMenuButton
                       onClick={() => onSelectRecording(rec.id)}
-                      className="h-auto py-2 flex flex-col items-start justify-start" // Adjusted for multi-line
+                      className="h-auto py-2 flex flex-col items-start justify-start hover:bg-sidebar-accent/60 transition-colors"
                       tooltip={{
                           children: (
                               <div>
@@ -148,7 +148,7 @@ export function MeetingSidebar({
                     <SidebarMenuAction
                       onClick={(e) => handleDeleteClick(e, rec.id)}
                       aria-label={`Delete recording ${rec.name}`}
-                      className="top-1/2 -translate-y-1/2" // Center vertically
+                      className="top-1/2 -translate-y-1/2"
                     >
                       <Trash2 className="w-4 h-4 text-destructive/70 hover:text-destructive" />
                     </SidebarMenuAction>

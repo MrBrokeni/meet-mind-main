@@ -95,7 +95,7 @@ export const RecordingCard: React.FC<RecordingCardProps> = ({
   }
 
   return (
-    <Card className="w-full shadow-xl border border-border/50 mb-8">
+    <Card className="w-full shadow-lg md:shadow-xl border border-border/50 mb-8 transition-shadow hover:shadow-2xl">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-2xl font-semibold">
           <Target className="h-6 w-6 text-accent" /> Create or Load Meeting

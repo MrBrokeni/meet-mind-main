@@ -261,10 +261,10 @@ const AppContent: React.FC = () => {
       />
 
       <main id="main-content" role="main" className={cn(
-        "flex-1 flex flex-col items-center p-4 pt-10 md:p-8 overflow-y-auto transition-all duration-300 ease-in-out"
+        "flex-1 flex flex-col items-center p-4 pt-8 md:pt-10 md:px-8 overflow-y-auto transition-all duration-300 ease-in-out"
       )}>
         <div className="container mx-auto max-w-4xl w-full">
-          <header className="mb-6 text-center relative">
+          <header className="mb-8 text-center relative">
             <Button
               variant="ghost"
               size="icon"
@@ -276,12 +276,12 @@ const AppContent: React.FC = () => {
             </Button>
 
             <div className="flex items-center justify-center gap-3 mb-2">
-              <Mic className="w-10 h-10 text-primary" />
-              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+              <Mic className="w-10 h-10 text-primary drop-shadow-sm" />
+              <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-foreground via-foreground/80 to-primary bg-clip-text text-transparent">
                 MeetMind
               </h1>
             </div>
-            <p className="mt-2 text-lg text-muted-foreground">
+            <p className="mt-2 text-base sm:text-lg text-muted-foreground">
               Record, transcribe, and analyze your meetings with AI
             </p>
           </header>
