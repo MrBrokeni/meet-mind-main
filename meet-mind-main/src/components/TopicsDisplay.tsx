@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import {
   Card,
   CardContent,
@@ -13,9 +13,7 @@ interface TopicsDisplayProps {
   topicsResult: DetectTopicsOutput;
 }
 
-export const TopicsDisplay: React.FC<TopicsDisplayProps> = ({
-  topicsResult,
-}) => {
+export const TopicsDisplay: React.FC<TopicsDisplayProps> = memo(({ topicsResult }) => {
   if (!topicsResult || !topicsResult.topics || topicsResult.topics.length === 0) {
     return null;
   }
@@ -38,4 +36,4 @@ export const TopicsDisplay: React.FC<TopicsDisplayProps> = ({
       </CardContent>
     </Card>
   );
-};
+});

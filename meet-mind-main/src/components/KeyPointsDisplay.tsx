@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo, useCallback } from 'react';
 import {
   Card,
   CardContent,
@@ -31,10 +31,7 @@ interface KeyPointsDisplayProps {
   onCopyToClipboard: (text: string, label: string) => void;
 }
 
-export const KeyPointsDisplay: React.FC<KeyPointsDisplayProps> = ({
-  keyPoints,
-  onCopyToClipboard,
-}) => {
+export const KeyPointsDisplay: React.FC<KeyPointsDisplayProps> = memo(({ keyPoints, onCopyToClipboard }) => {
   const iconMap: { [key: string]: React.ReactNode } = {
     summary: <BookOpen className="h-5 w-5 text-primary" />,
     decisions: <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />,
@@ -43,24 +40,24 @@ export const KeyPointsDisplay: React.FC<KeyPointsDisplayProps> = ({
     deadlines: <Timer className="h-5 w-5 text-red-600 dark:text-red-400" />,
   };
 
-  const pointsToShow = [
+  const pointsToShow = useMemo(() => ([
     { title: 'Summary', data: keyPoints.summary ? [keyPoints.summary] : [], icon: iconMap.summary, copyKey: 'summary', copyLabel: 'Summary' },
     { title: 'Decisions', data: keyPoints.decisions || [], icon: iconMap.decisions, copyKey: 'decisions', copyLabel: 'Decisions' },
     { title: 'Tasks', data: keyPoints.tasks || [], icon: iconMap.tasks, copyKey: 'tasks', copyLabel: 'Tasks' },
     { title: 'Questions', data: keyPoints.questions || [], icon: iconMap.questions, copyKey: 'questions', copyLabel: 'Questions' },
     { title: 'Deadlines', data: keyPoints.deadlines || [], icon: iconMap.deadlines, copyKey: 'deadlines', copyLabel: 'Deadlines' },
-  ];
+  ]), [keyPoints.summary, keyPoints.decisions, keyPoints.tasks, keyPoints.questions, keyPoints.deadlines]);
 
-  const formatCopyText = (data: string[], title: string): string => {
+  const formatCopyText = useCallback((data: string[], title: string): string => {
     const nonEmptyData = data?.filter(item => item && item.trim() !== '');
     if (!nonEmptyData || nonEmptyData.length === 0) return '';
     if (nonEmptyData.length === 1 && title === 'Summary') return nonEmptyData[0];
     return `${title}:\n- ${nonEmptyData.join('\n- ')}`;
-  };
+  }, []);
 
-  const validPoints = pointsToShow.filter(point => 
+  const validPoints = useMemo(() => pointsToShow.filter(point => 
     point.data && point.data.length > 0 && point.data.some(item => item && item.trim() !== '')
-  );
+  ), [pointsToShow]);
 
   if (validPoints.length === 0) {
     return (
@@ -151,4 +148,4 @@ export const KeyPointsDisplay: React.FC<KeyPointsDisplayProps> = ({
       </CardContent>
     </Card>
   );
-};
+});

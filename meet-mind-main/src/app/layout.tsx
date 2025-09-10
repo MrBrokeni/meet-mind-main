@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster'; // Import Toaster
 import { cn } from '@/lib/utils';
+import { Analytics } from '@vercel/analytics/react';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -85,6 +86,7 @@ export default function RootLayout({
         </a>
         {children}
         <Toaster /> {/* Add Toaster */}
+        <Analytics />
       </body>
     </html>
   );

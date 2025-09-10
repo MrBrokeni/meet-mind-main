@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import {
   Card,
   CardContent,
@@ -15,31 +15,19 @@ interface SentimentDisplayProps {
   sentimentResult: AnalyzeSentimentOutput;
 }
 
-export const SentimentDisplay: React.FC<SentimentDisplayProps> = ({
-  sentimentResult,
-}) => {
+export const SentimentDisplay: React.FC<SentimentDisplayProps> = memo(({ sentimentResult }) => {
   const { sentiment, confidence, reasoning } = sentimentResult;
-  
-  let IconComponent: React.ElementType;
-  let colorClass: string;
-  let text: string;
 
-  switch (sentiment) {
-    case 'positive':
-      IconComponent = Smile;
-      colorClass = SENTIMENT_COLORS.positive;
-      text = 'Positive';
-      break;
-    case 'negative':
-      IconComponent = Frown;
-      colorClass = SENTIMENT_COLORS.negative;
-      text = 'Negative';
-      break;
-    default:
-      IconComponent = Meh;
-      colorClass = SENTIMENT_COLORS.neutral;
-      text = 'Neutral';
-  }
+  const { IconComponent, colorClass, text } = useMemo(() => {
+    switch (sentiment) {
+      case 'positive':
+        return { IconComponent: Smile, colorClass: SENTIMENT_COLORS.positive, text: 'Positive' };
+      case 'negative':
+        return { IconComponent: Frown, colorClass: SENTIMENT_COLORS.negative, text: 'Negative' };
+      default:
+        return { IconComponent: Meh, colorClass: SENTIMENT_COLORS.neutral, text: 'Neutral' };
+    }
+  }, [sentiment]);
 
   return (
     <Card className="shadow-md hover:shadow-lg transition-shadow duration-200 h-full">
@@ -62,4 +50,4 @@ export const SentimentDisplay: React.FC<SentimentDisplayProps> = ({
       </CardContent>
     </Card>
   );
-};
+});
